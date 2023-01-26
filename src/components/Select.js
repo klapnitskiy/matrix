@@ -15,6 +15,7 @@ const Select = ({ getData }) => {
   const changeHandler = (e) => {
     // setSelectedOption(e.target.value);
     contextHandler.setGridSize(e.target.value);
+    contextHandler.setHoveredSquares([]);
   };
 
   if (!res.response) {
