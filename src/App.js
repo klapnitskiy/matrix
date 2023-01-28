@@ -1,5 +1,5 @@
 import "./App.css";
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import Grid from "./components/Grid";
 import Select from "./components/Select";
 import HoveredSquares from "./components/HoveredSquares";
@@ -9,12 +9,6 @@ function App() {
   const [gridSize, setGridSize] = useState("");
   const [hoveredSquares, setHoveredSquares] = useState([]);
 
-  // const hoveredSquares = useRef([]);
-
-  // const getGridSize = (data) => {
-  //   setGridSize(data);
-  // };
-
   console.log(hoveredSquares.current);
 
   return (
@@ -22,8 +16,10 @@ function App() {
       <AppContext.Provider
         value={{ gridSize, setGridSize, hoveredSquares, setHoveredSquares }}
       >
-        <Select />
-        <Grid cellWidth={30} cellHeight={30} borderColor={"black"} />
+        <div className="grid-container">
+          <Select />
+          <Grid cellWidth={30} cellHeight={30} borderColor={"black"} />
+        </div>
         <HoveredSquares />
       </AppContext.Provider>
     </div>

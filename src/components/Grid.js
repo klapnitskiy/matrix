@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { useContext, useRef } from "react";
+import { useContext } from "react";
 import { AppContext } from "../App";
 import "./Grid.css";
 import Item from "./Item";
@@ -7,11 +6,8 @@ import Item from "./Item";
 const Grid = (props) => {
   const { cellWidth, cellHeight, borderColor } = props;
 
-  const gridSizeContext = useContext(AppContext);
-  // const [pairs, setPairs] = useState([]);
-  // gridSizeContext.hoveredSquares = pairs;
-
-  // let refs = useRef([]);
+  const { hoveredSquares, setHoveredSquares, gridSize } =
+    useContext(AppContext);
 
   const handleHover = (e) => {
     if (!e.target.classList.contains("grid-item")) return;
@@ -23,68 +19,52 @@ const Grid = (props) => {
 
     const currPairs = getPosition(currItemId);
 
-    const addItem = (e) => {
-      // gridSizeContext.hoveredSquares.push(currPairs);
+    const addItem = () => {
       currentItem.classList.add("grid-item__hovered");
-
-      // setPairs([...pairs, currPairs]);
-      // refs = [...refs, ref];
       console.log(currPairs);
-      gridSizeContext.setHoveredSquares([
-        ...gridSizeContext.hoveredSquares,
-        currPairs,
-      ]);
+      setHoveredSquares([...hoveredSquares, currPairs]);
     };
 
     const deleteItem = (id) => {
-      const updatedItems = gridSizeContext.hoveredSquares.filter(
+      const updatedItems = hoveredSquares.filter(
         (item) => item.itemNumber !== id
       );
-      // setPairs(updatedItems);
       console.log("here");
       currentItem.classList.toggle("grid-item__hovered");
-      gridSizeContext.setHoveredSquares(updatedItems);
+      setHoveredSquares(updatedItems);
     };
 
-    // console.log(pairs);
-
-    gridSizeContext.hoveredSquares.find(
-      (pair) => pair.itemNumber === currPairs.itemNumber
-    )
+    hoveredSquares.find((pair) => pair.itemNumber === currPairs.itemNumber)
       ? deleteItem(currItemId)
       : addItem();
   };
 
-  // const handleHover = (e) => {
-  //   getPosition(e.target.getAttribute("data-id"));
-  // };
-
   function getPosition(itemNumber) {
     const itemRow =
-      itemNumber % gridSizeContext.gridSize === 0
-        ? Math.floor(itemNumber / gridSizeContext.gridSize)
-        : Math.floor(itemNumber / gridSizeContext.gridSize + 1);
+      itemNumber % gridSize === 0
+        ? Math.floor(itemNumber / gridSize)
+        : Math.floor(itemNumber / gridSize + 1);
+
     const itemCol = Math.floor(
-      itemNumber % gridSizeContext.gridSize === 0
-        ? gridSizeContext.gridSize
-        : itemNumber % gridSizeContext.gridSize
+      itemNumber % gridSize === 0 ? gridSize : itemNumber % gridSize
     );
 
     return { itemRow, itemCol, itemNumber };
   }
 
+  if (!gridSize) return;
+
   return (
     <div
       className="grid"
       style={{
-        gridTemplateColumns: `repeat(${gridSizeContext.gridSize}, ${cellWidth}px)`,
-        gridTemplateRows: `repeat(${gridSizeContext.gridSize}, ${cellHeight}px)`,
+        gridTemplateColumns: `repeat(${gridSize}, ${cellWidth}px)`,
+        gridTemplateRows: `repeat(${gridSize}, ${cellHeight}px)`,
         "--border-color": borderColor,
       }}
-      // ref={gridSizeContext.hoveredSquares}
       onMouseOverCapture={handleHover}
     >
-      {Array.from({ length: gridSizeContext.gridSize ** 2 }, (_, index) => (
+      {Array.from({ length: gridSize ** 2 }, (_, index) => (
         <Item key={index} itemNumber={index + 1} />
       ))}
     </div>

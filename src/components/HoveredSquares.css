@@ -1,0 +1,21 @@
+.hovered-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.hovered-container h2 {
+  margin: 0;
+}
+
+.hovered-items {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.hovered-item {
+  background-color: #fbf8e3;
+  color: #896d3a;
+  padding: 15px;
+  border-radius: 10px;
+}
