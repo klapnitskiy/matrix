@@ -11,7 +11,10 @@ function App() {
   return (
     <div className="App">
       <div className="grid-container">
-        <MemoizedSelect setGridSize={setGridSize} />
+        <MemoizedSelect
+          setGridSize={setGridSize}
+          setHoveredSquares={setHoveredSquares}
+        />
         <Grid
           gridSize={gridSize}
           setHoveredSquares={setHoveredSquares}

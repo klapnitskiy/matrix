@@ -19,10 +19,7 @@ const HoveredSquares = ({ hoveredSquares, gridSize }) => {
   );
 
   return (
-    <div
-      style={{ height: 300, overflow: "auto" }}
-      className="hovered-container"
-    >
+    <div className="hovered-container">
       <h2>Hovered squares</h2>
       <div className="hovered-items">
         {[...hoveredSquares].map((item) => {

@@ -1,13 +1,14 @@
 import useFetch from "./useFetch";
 import { memo } from "react";
 
-const Select = ({ setGridSize }) => {
+const Select = ({ setGridSize, setHoveredSquares }) => {
   const url = `https://demo7919674.mockable.io/`;
 
   const res = useFetch(url, {});
 
   const changeHandler = (e) => {
     setGridSize(Number(e.target.value));
+    setHoveredSquares([]);
   };
 
   if (!res.response) {
@@ -16,7 +17,15 @@ const Select = ({ setGridSize }) => {
 
   return (
     <>
-      <select name="" id="" onChange={changeHandler} defaultValue={0}>
+      <select
+        style={{
+          maxWidth: 100,
+        }}
+        name=""
+        id=""
+        onChange={changeHandler}
+        defaultValue={0}
+      >
         <option value={0} hidden disabled>
           Pick mode
         </option>
