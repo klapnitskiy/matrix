@@ -1,56 +1,35 @@
-import { useContext } from "react";
-import { AppContext } from "../App";
 import "./Grid.css";
-import Item from "./Item";
+import { MemoizedItem } from "./Item";
 
-const Grid = (props) => {
-  const { cellWidth, cellHeight, borderColor } = props;
-
-  const { hoveredSquares, setHoveredSquares, gridSize } =
-    useContext(AppContext);
-
+const Grid = ({
+  hoveredSquares,
+  setHoveredSquares,
+  gridSize,
+  cellWidth,
+  cellHeight,
+  borderColor,
+}) => {
   const handleHover = (e) => {
     if (!e.target.classList.contains("grid-item")) return;
 
     const currentItem = e.target;
 
     const currItemId = Number(e.target.getAttribute("data-id"));
-    console.log(currItemId);
-
-    const currPairs = getPosition(currItemId);
 
     const addItem = () => {
-      currentItem.classList.add("grid-item__hovered");
-      console.log(currPairs);
-      setHoveredSquares([...hoveredSquares, currPairs]);
+      setHoveredSquares([...hoveredSquares, currItemId]);
     };
 
     const deleteItem = (id) => {
-      const updatedItems = hoveredSquares.filter(
-        (item) => item.itemNumber !== id
-      );
-      console.log("here");
+      const updatedItems = hoveredSquares.filter((item) => item !== id);
       currentItem.classList.toggle("grid-item__hovered");
       setHoveredSquares(updatedItems);
     };
 
-    hoveredSquares.find((pair) => pair.itemNumber === currPairs.itemNumber)
+    hoveredSquares.find((itemId) => itemId === currItemId)
       ? deleteItem(currItemId)
       : addItem();
   };
-
-  function getPosition(itemNumber) {
-    const itemRow =
-      itemNumber % gridSize === 0
-        ? Math.floor(itemNumber / gridSize)
-        : Math.floor(itemNumber / gridSize + 1);
-
-    const itemCol = Math.floor(
-      itemNumber % gridSize === 0 ? gridSize : itemNumber % gridSize
-    );
-
-    return { itemRow, itemCol, itemNumber };
-  }
 
   if (!gridSize) return;
 
@@ -64,9 +43,16 @@ const Grid = (props) => {
       }}
       onMouseOverCapture={handleHover}
     >
-      {Array.from({ length: gridSize ** 2 }, (_, index) => (
-        <Item key={index} itemNumber={index + 1} />
-      ))}
+      {Array.from({ length: gridSize ** 2 }, (_, index) => {
+        const isHovered = hoveredSquares.find((item) => item === index + 1);
+        return (
+          <MemoizedItem
+            key={index}
+            itemNumber={index + 1}
+            isHovered={isHovered}
+          />
+        );
+      })}
     </div>
   );
 };

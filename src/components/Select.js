@@ -1,27 +1,13 @@
-// import { useState } from "react";
-import { useContext } from "react";
-import { AppContext } from "../App";
 import useFetch from "./useFetch";
+import { memo } from "react";
 
-const Select = () => {
+const Select = ({ setGridSize }) => {
   const url = `https://demo7919674.mockable.io/`;
 
   const res = useFetch(url, {});
 
-  // const res = [
-  //   { name: "Easy", field: 5 },
-  //   { name: "Medium", field: 15 },
-  //   { name: "Hard", field: 25 },
-  // ];
-
-  const contextHandler = useContext(AppContext);
-
-  console.log(contextHandler);
-
   const changeHandler = (e) => {
-    // setSelectedOption(e.target.value);
-    contextHandler.setGridSize(e.target.value);
-    // contextHandler.setHoveredSquares([]);
+    setGridSize(Number(e.target.value));
   };
 
   if (!res.response) {
@@ -46,4 +32,4 @@ const Select = () => {
   );
 };
 
-export default Select;
+export const MemoizedSelect = memo(Select);
