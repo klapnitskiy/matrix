@@ -1,4 +1,5 @@
 import { useCallback, memo } from "react";
+import { MemoizedSquare } from "./HoveredSquare";
 import "./HoveredSquares.css";
 
 const HoveredSquares = ({ hoveredSquares, gridSize }) => {
@@ -25,10 +26,11 @@ const HoveredSquares = ({ hoveredSquares, gridSize }) => {
         {[...hoveredSquares].map((item) => {
           const { itemRow, itemCol, itemNumber } = getPosition(item);
           return (
-            <div className="hovered-item" key={itemNumber}>
-              <strong>square: {itemNumber}</strong> item row:{" "}
-              <strong>{itemRow}</strong> item col: <strong>{itemCol}</strong>
-            </div>
+            <MemoizedSquare
+              itemCol={itemCol}
+              itemRow={itemRow}
+              itemNumber={itemNumber}
+            />
           );
         })}
       </div>

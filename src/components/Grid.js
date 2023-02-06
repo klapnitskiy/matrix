@@ -12,8 +12,6 @@ const Grid = ({
   const handleHover = (e) => {
     if (!e.target.classList.contains("grid-item")) return;
 
-    const currentItem = e.target;
-
     const currItemId = Number(e.target.getAttribute("data-id"));
 
     const addItem = () => {
@@ -22,7 +20,6 @@ const Grid = ({
 
     const deleteItem = (id) => {
       const updatedItems = hoveredSquares.filter((item) => item !== id);
-      currentItem.classList.toggle("grid-item__hovered");
       setHoveredSquares(updatedItems);
     };
 
